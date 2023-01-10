@@ -1,0 +1,55 @@
+﻿@model IEnumerable<CoffeeShopProductListLab.Models.ProductViewModel>
+
+@{
+    ViewData["Title"] = "Products";
+}
+
+<h4>Categories</h4>
+<div class="category-list">
+@{
+    List<string> categoryList = new List<string>();
+
+        foreach (string category in Model.OrderBy(x => x.Category).Select(x => x.Category).Distinct())
+    {
+        categoryList.Add(category);
+    }
+
+    for (int i = 0; i < categoryList.Count(); i++)
+    {
+        @Html.ActionLink(categoryList[i], "Category", new { id = categoryList[i] });
+
+        if (i < categoryList.Count() - 1)
+            @Html.DisplayName(" | ");
+    }
+}
+</div>
+<br />
+
+<h1>Products</h1>
+
+<div class="half-width">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+                <th class="right-align">
+                    @Html.DisplayNameFor(model => model.Price)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+    @foreach (var item in Model) {
+            <tr>
+                <td>
+                    @Html.ActionLink(item.Name, "Details", new { id = item.Id })
+                </td>
+                <td class="right-align">
+                    $@Html.DisplayFor(modelItem => item.Price)
+                </td>
+            </tr>
+    }
+        </tbody>
+    </table>
+</div>
